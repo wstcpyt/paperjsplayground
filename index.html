@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!-- Load the Paper.js library -->
-<script type="text/javascript" src="js/paper.js"></script>
-<!-- Define inlined JavaScript -->
-<script type="text/javascript">
-	// Only executed our code once the DOM is ready.
-	window.onload = function() {
-		// Get a reference to the canvas object
-		var canvas = document.getElementById('myCanvas');
-		// Create an empty project and a view for the canvas:
-		paper.setup(canvas);
-		// Create a Paper.js Path to draw a line into it:
-		var path = new paper.Path();
-		// Give the stroke a color
-		path.strokeColor = 'black';
-        path.add(new paper.Point(30, 75),
-                new paper.Point(30, 25),
-                new paper.Point(80, 25),
-                new paper.Point(80, 75));
-        path.closed = true;
-
-        var copy = path.clone();
-        copy.isFullySelected = true;
-        copy.position.x += 100;
-
-        copy.smooth();
-		// Draw the view now:
-		paper.view.draw();
-	}
-</script>
+    <!-- Load the Paper.js library -->
+    <script type="text/javascript" src="js/paper.js"></script>
+    <!-- Define inlined JavaScript -->
+    <script type="text/javascript">
+        // Only executed our code once the DOM is ready.
+        window.onload = function() {
+            // Get a reference to the canvas object
+            var canvas = document.getElementById('myCanvas');
+            // Create an empty project and a view for the canvas:
+            paper.setup(canvas);
+            var circlePath = new paper.Path.Circle(new paper.Point(50, 50), 25);
+            circlePath.fillColor = 'black';
+            function getMousePos(canvas, evt) {
+                var rect = canvas.getBoundingClientRect();
+                return {
+                    x: evt.clientX - rect.left,
+                    y: evt.clientY - rect.top
+                };
+            }
+            canvas.addEventListener('mousemove', function(evt){
+                var mousePos = getMousePos(canvas, evt);
+                circlePath.position = mousePos
+            }, false);
+            // Draw the view now:
+            paper.view.draw();
+        }
+    </script>
 </head>
 <body>
-	<canvas id="myCanvas" resize></canvas>
+<canvas  id="myCanvas"></canvas>
 </body>
 </html>
